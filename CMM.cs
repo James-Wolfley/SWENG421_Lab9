@@ -2,8 +2,8 @@ namespace SWENG421_Lab9;
 
 public class CMM
 {
-    private CoffeeIF cif;
-    private ProgramIF pif;
+    private CoffeeIF? cif;
+    private ProgramIF? pif;
 
     public ProgramIF SetProgram(int num)
     {
@@ -20,13 +20,30 @@ public class CMM
 
     public ProgramIF SetProgram(string programName)
     {
-        var type = System.Reflection.Assembly.GetExecutingAssembly()
-            .GetType($"SWENG421_Lab9.{programName}");
+        var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+        var input = programName.Trim();
+        Type? type = null;
+
+        var candidates = input.EndsWith("Prog", StringComparison.Ordinal)
+            ? new[] { input }
+            : new[] { input, $"{input}Prog" };
+
+        foreach (var candidate in candidates)
+        {
+            var fullName = candidate.Contains('.') ? candidate : $"SWENG421_Lab9.{candidate}";
+            var resolvedType = assembly.GetType(fullName);
+            if (resolvedType != null && typeof(ProgramIF).IsAssignableFrom(resolvedType))
+            {
+                type = resolvedType;
+                break;
+            }
+        }
+
         if (type == null || !typeof(ProgramIF).IsAssignableFrom(type))
             throw new ArgumentException($"Unknown program: {programName}");
 
         pif = (ProgramIF)Activator.CreateInstance(type, this)!;
-        Console.WriteLine($"Program set to: {programName}");
+        Console.WriteLine($"Program set to: {type.Name}");
         return pif;
     }
 
@@ -55,12 +72,18 @@ public class CMM
 
     public void RunProgram()
     {
+        if (pif == null)
+            throw new InvalidOperationException("Program not set. Call SetProgram(...) before RunProgram().");
+
         pif.run();
     }
 
 
     public double ComputePrice()
     {
+        if (cif == null)
+            throw new InvalidOperationException("Coffee not set. Call SetCoffee(...) before ComputePrice().");
+
         return cif.GetPrice();
     }
 

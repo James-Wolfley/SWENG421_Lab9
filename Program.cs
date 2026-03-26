@@ -22,7 +22,7 @@ class Program
         Console.WriteLine();
 
         Console.WriteLine("Drink 2: Espresso");
-        machine.SetProgram("EspressoProg");
+        machine.SetProgram("Espresso");
 
         CoffeeIF espresso = new EspressoCoffee();
         espresso = new Cream(espresso);
