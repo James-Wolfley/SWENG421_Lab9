@@ -30,24 +30,9 @@ public class CMM
         return pif;
     }
 
-    public ProgramIF setProgram(int num)
-    {
-        return SetProgram(num);
-    }
-
-    public ProgramIF setProgram(string programName)
-    {
-        return SetProgram(programName);
-    }
-
     public void SetGrindingTime(int secs)
     {
         Console.WriteLine($"Grinding for {secs} seconds");
-    }
-
-    public void setGrindingTime(int secs)
-    {
-        SetGrindingTime(secs);
     }
 
     public void SetTemperature(int degree)
@@ -55,10 +40,6 @@ public class CMM
         Console.WriteLine($"Heating water to {degree}°F");
     }
 
-    public void setTemperature(int degree)
-    {
-        SetTemperature(degree);
-    }
 
     public void SetCoffee(CoffeeIF cif)
     {
@@ -66,38 +47,21 @@ public class CMM
         Console.WriteLine($"Coffee set to: {cif.GetDescription()}");
     }
 
-    public void setCoffee(CoffeeIF cif)
-    {
-        SetCoffee(cif);
-    }
-
     public void SetLEDNum(int num)
     {
         Console.WriteLine($"LED set to: {num}");
     }
 
-    public void setLEDNum(int num)
-    {
-        SetLEDNum(num);
-    }
 
     public void RunProgram()
     {
         pif.run();
     }
 
-    public void runProgram()
-    {
-        RunProgram();
-    }
 
     public double ComputePrice()
     {
         return cif.GetPrice();
     }
 
-    public double computePrice()
-    {
-        return ComputePrice();
-    }
 }
